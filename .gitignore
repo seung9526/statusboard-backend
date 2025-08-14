@@ -1,0 +1,51 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# Build
+.gradle/
+build/
+out/
+bin/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Gradle Wrapper
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin
+.kotlin
+
+# Logs & Temps
+*.log
+*.tmp
+*.swp
+*.bak
+
+# NetBeans
+/nbproject/private/
+
+# Exceptions (optional)
+!**/src/main/**/build/
+!**/src/test/**/build/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+!**/src/main/**/out/
+!**/src/test/**/out/
