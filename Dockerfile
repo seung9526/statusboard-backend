@@ -14,6 +14,7 @@ RUN ./gradlew dependencies --no-daemon || true
 
 # 전체 프로젝트 복사
 COPY . .
+RUN chmod +x gradlew
 
 # 빌드
 RUN ./gradlew clean bootJar -x test --no-daemon -PjarName=statusboard.jar
