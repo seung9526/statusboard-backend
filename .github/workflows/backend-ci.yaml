@@ -9,7 +9,7 @@ on:
 env:
   IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/statusboard-backend
   INFRA_REPO: seung9526/statusboard-infra
-  INFRA_VALUES_PATH: helm/statusboard/values-dev.yaml
+  INFRA_VALUES_PATH: helm/statusboard/values.yaml
   BRANCH: ${{ github.ref_name }}
   TAG_SHA: ${{ github.sha }}
 
