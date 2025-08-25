@@ -34,10 +34,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      #  Gradle 빌드
-      #- name: Build with Gradle
-      #  run: ./gradlew build
-
       # Docker 빌드
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.BRANCH }}-latest .
