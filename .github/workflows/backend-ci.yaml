@@ -39,16 +39,16 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.BRANCH }}-latest .
 
-      # 5️⃣ Trivy 이미지 스캔
-      - name: Scan Docker image with Trivy
-        uses: aquasecurity/trivy-action@v0
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}:${{ env.BRANCH }}-latest
-          severity: CRITICAL
-          exit-code: 1
-          format: table
+      # 5️⃣ Trivy 설치
+      - name: Setup Trivy
+        uses: aquasecurity/setup-trivy@v0.2.1
 
-      # 6️⃣ GHCR 로그인
+      # 6️⃣ Docker 이미지 스캔
+      - name: Scan Docker image with Trivy
+        run: |
+          trivy image --severity CRITICAL --exit-code 1 --format table ${{ env.IMAGE_NAME }}:${{ env.BRANCH }}-latest
+
+      # 7️⃣ GHCR 로그인
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -56,11 +56,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 7️⃣ Docker 이미지 푸시
+      # 8️⃣ Docker 이미지 푸시
       - name: Push Docker image
         run: docker push ${{ env.IMAGE_NAME }}:${{ env.BRANCH }}-latest
 
-      # 8️⃣ infra 레포 체크아웃
+      # 9️⃣ infra 레포 체크아웃
       - name: Checkout infra repo
         uses: actions/checkout@v3
         with:
@@ -70,7 +70,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      # 9️⃣ values-dev.yaml의 backend.image.tag 업데이트
+      # 🔟 values-dev.yaml의 backend.image.tag 업데이트
       - name: Update backend image tag in infra values
         working-directory: infra-repo
         run: |
@@ -86,7 +86,7 @@ jobs:
           git add $INFRA_VALUES_PATH
           git commit -m "chore: update backend image tag to ${BRANCH}-latest (from ${GITHUB_REPOSITORY}@${TAG_SHA})" || echo "No changes"
 
-      # 🔟 infra 레포에 PR 생성
+      # 11️⃣ infra 레포에 PR 생성
       - name: Create PR to infra
         uses: peter-evans/create-pull-request@v6
         with:
