@@ -12,6 +12,9 @@ COPY gradle ./gradle
 RUN chmod +x gradlew
 RUN ./gradlew dependencies --no-daemon || true
 
+# 취약점 패치: zlib1g 업그레이드
+RUN apt-get update && apt-get install -y --only-upgrade zlib1g && rm -rf /var/lib/apt/lists/*
+
 # 전체 프로젝트 복사
 COPY . .
 RUN chmod +x gradlew
