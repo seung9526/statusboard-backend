@@ -82,7 +82,6 @@ jobs:
           fi
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git checkout -b chore/update-backend-image-${BRANCH}-$(echo $TAG_SHA | cut -c1-7)
           git add $INFRA_VALUES_PATH
           git commit -m "chore: update backend image tag to ${BRANCH}-latest (from ${GITHUB_REPOSITORY}@${TAG_SHA})" || echo "No changes"
 
@@ -92,7 +91,9 @@ jobs:
         with:
           token: ${{ secrets.INFRA_REPO_TOKEN }}
           path: infra-repo
-          branch: chore/update-backend-image-${{ env.BRANCH }}-${{ env.TAG_SHA }}
+          branch: chore/update-backend-image-${{ env.BRANCH }}
+          branch-suffix: short-commit-hash   # 브랜치 이름 충돌 방지
+          delete-branch: true                # 머지 후 자동 정리
           title: "chore(infra): BE image -> ${{ env.BRANCH }}-latest"
           commit-message: "chore: BE image tag -> ${{ env.BRANCH }}-latest"
           base: main
